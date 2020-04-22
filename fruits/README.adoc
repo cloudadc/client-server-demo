@@ -1,0 +1,89 @@
+= What's this
+
+A fruit microservice demo.
+
+== Run locally
+
+[source, bash]
+.*Build*
+----
+mvn clean install
+----
+
+[source, bash]
+.*Run*
+----
+$ java -jar target/fruits-0.0.1.jar
+----
+
+[source, bash]
+.*Test - OpenAPI Doc/Get all/Get One*
+----
+$ curl http://localhost:8080/v3/api-docs
+
+$ curl http://localhost:8080/api/fruits
+[{"id":1,"name":"Cherry"},{"id":2,"name":"Apple"},{"id":3,"name":"Banana"}
+
+$ curl http://localhost:8080/api/fruits/3
+{"id":3,"name":"Banana"}
+----
+
+== Run with Docker
+
+[source, bash]
+.*build*
+----
+docker build -t fruits .
+----
+
+[source, bash]
+.*Run*
+----
+docker run -p 8080:8080 fruits
+----
+
+[source, bash]
+.*Test - OpenAPI Doc/Get all/Get One*
+----
+$ curl http://localhost:8080/v3/api-docs
+
+$ curl http://localhost:8080/api/fruits
+[{"id":1,"name":"Cherry"},{"id":2,"name":"Apple"},{"id":3,"name":"Banana"}
+
+$ curl http://localhost:8080/api/fruits/3
+{"id":3,"name":"Banana"}
+----
+
+[source, bash]
+.*Push image to a docker registry*
+----
+docker tag fruits:latest kylinsoong/fruits:0.0.1
+docker push kylinsoong/fruits:0.0.1
+----
+
+== Run with k8s
+
+[source, bash]
+.*Deploy*
+----
+kubectl create deployment fruits --image=kylinsoong/fruits:0.0.1 -n test
+----
+
+[source, bash]
+.*Expose to Service*
+----
+kubectl expose deployment fruits --port=80 --target-port=8080 --name=fruits-svc -n test
+kubectl expose deployment fruits --port=80 --target-port=8080 --type='NodePort' --name=fruits-svc-nodeport -n test
+----
+
+[source, bash]
+.*Test - OpenAPI Doc/Get all/Get One*
+----
+$ curl http://192.168.100.101:31509/v3/api-docs
+
+$ curl http://192.168.100.101:31509/api/fruits
+[{"id":1,"name":"Cherry"},{"id":2,"name":"Apple"},{"id":3,"name":"Banana"}]
+
+$ curl http://192.168.100.101:31509/api/fruits/3
+{"id":3,"name":"Banana"}
+----
