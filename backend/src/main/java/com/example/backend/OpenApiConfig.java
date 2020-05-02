@@ -1,4 +1,4 @@
-package com.example.fruits;
+package com.example.backend;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -9,6 +9,6 @@ import org.springframework.context.annotation.Configuration;
 public class OpenApiConfig {
   public OpenAPI customOpenAPI() {
     return (new OpenAPI()).components(new Components())
-      .info((new Info()).title("Fruit Application API").description("This is Fruit Application API From F5 Demo"));
+      .info((new Info()).title("Backend API").description("This is Backend Application API From F5 Demo"));
   }
 }

@@ -1,6 +1,6 @@
 = What's this
 
-A fruit microservice demo.
+A microservice demo.
 
 == Run locally
 
@@ -13,7 +13,7 @@ mvn clean install
 [source, bash]
 .*Run*
 ----
-$ java -jar target/fruits-0.0.1.jar
+$ java -jar target/backend-0.0.2.jar
 ----
 
 [source, bash]
@@ -27,19 +27,23 @@ $ curl http://localhost:8080/api/fruits
 $ curl http://localhost:8080/api/fruits/3
 {"id":3,"name":"Banana"}
 ----
+
+*Test Via API UI*
+
+http://localhost:8080/swagger-ui.html
 
 == Run with Docker
 
 [source, bash]
 .*build*
 ----
-docker build -t fruits .
+docker build -t backend .
 ----
 
 [source, bash]
 .*Run*
 ----
-docker run -p 8080:8080 fruits
+docker run -p 8080:8080 backend
 ----
 
 [source, bash]
@@ -54,11 +58,16 @@ $ curl http://localhost:8080/api/fruits/3
 {"id":3,"name":"Banana"}
 ----
 
+*Test Via API UI*
+
+http://localhost:8080/swagger-ui.html
+
+
 [source, bash]
 .*Push image to a docker registry*
 ----
-docker tag fruits:latest kylinsoong/fruits:0.0.1
-docker push kylinsoong/fruits:0.0.1
+docker tag backend:latest kylinsoong/backend:0.0.2
+docker push kylinsoong/backend:0.0.2
 ----
 
 == Run with k8s
@@ -66,14 +75,14 @@ docker push kylinsoong/fruits:0.0.1
 [source, bash]
 .*Deploy*
 ----
-kubectl create deployment fruits --image=kylinsoong/fruits:0.0.1 -n test
+kubectl create deployment backend --image=kylinsoong/backend:0.0.2 -n test
 ----
 
 [source, bash]
 .*Expose to Service*
 ----
-kubectl expose deployment fruits --port=80 --target-port=8080 --name=fruits-svc -n test
-kubectl expose deployment fruits --port=80 --target-port=8080 --type='NodePort' --name=fruits-svc-nodeport -n test
+kubectl expose deployment backend --port=80 --target-port=8080 --name=backend-svc -n test
+kubectl expose deployment backend --port=80 --target-port=8080 --type='NodePort' --name=backend-svc -n test
 ----
 
 [source, bash]
@@ -87,3 +96,8 @@ $ curl http://192.168.100.101:31509/api/fruits
 $ curl http://192.168.100.101:31509/api/fruits/3
 {"id":3,"name":"Banana"}
 ----
+
+*Test Via API UI*
+
+http://192.168.100.101:31509/swagger-ui.html
+

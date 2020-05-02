@@ -1,4 +1,4 @@
-# Use openjdk 8 as a base image
+# Use openjdk 13 as a base image
 FROM openjdk:13
 
 # Set Label
@@ -8,10 +8,10 @@ LABEL maintainer "kylinsoong.1214@gmail.com"
 WORKDIR /app
 
 # Copy the runable jar into the container at /app
-ADD target/fruits-0.0.1.jar /app
+ADD target/backend-0.0.2.jar /app
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
 
 # Run  when the container launches
-CMD ["java", "-jar", "fruits-0.0.1.jar"]
+CMD ["java", "-jar", "backend-0.0.2.jar"]

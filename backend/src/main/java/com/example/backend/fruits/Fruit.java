@@ -1,4 +1,4 @@
-package com.example.fruits;
+package com.example.backend.fruits;
 
 public class Fruit {
 	

@@ -1,12 +1,12 @@
-package com.example.fruits;
+package com.example.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FruitsApplication {
+public class Application {
   public static void main(String[] args) {
-    SpringApplication.run(com.example.fruits.FruitsApplication.class, args);
+    SpringApplication.run(com.example.backend.Application.class, args);
   }
 }
 
