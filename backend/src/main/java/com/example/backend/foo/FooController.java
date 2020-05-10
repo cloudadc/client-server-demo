@@ -1,5 +1,11 @@
 package com.example.backend.foo;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,11 +39,34 @@ public class FooController {
 		return buildPlainText(request);
 	}
 	
+	@RequestMapping(path = {"/version"}, method = {RequestMethod.GET})
+	public String version(HttpServletRequest request) {
+		
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append(PARENTHESIS_LEFT);
+		
+		sb.append(QUOTATION).append("datacenter").append(QUOTATION).append(COLON).append(QUOTATION).append(System.getenv("APP_DATACENTER_NAME")).append(QUOTATION).append(COMMA).append(BLANK);
+		sb.append(QUOTATION).append("serverIP").append(QUOTATION).append(COLON).append(QUOTATION).append(request.getLocalAddr()).append(QUOTATION).append(COMMA).append(BLANK);
+		sb.append(QUOTATION).append("clientIP").append(QUOTATION).append(COLON).append(QUOTATION).append(request.getRemoteAddr()).append(QUOTATION).append(COMMA).append(BLANK);
+		sb.append(QUOTATION).append("appVersion").append(QUOTATION).append(COLON).append(QUOTATION).append(System.getenv("APP_VERSION_NUMBER")).append(QUOTATION).append(COMMA).append(BLANK);
+		sb.append(QUOTATION).append("appStatus").append(QUOTATION).append(COLON).append(QUOTATION).append("running").append(QUOTATION);	
+		
+		sb.append(PARENTHESIS_RIGHT);
+		sb.append(RETURN);
+		
+		return sb.toString();
+	}
+	
 	private final static String RETURN = "\n";
 	private final static String TAB = "    ";
+	private final static String BLANK = " ";
 	private final static String COLON = ": ";
 	private final static String EMPTY = " ";
 	private final static String COMMA = ",";
+	private final static String QUOTATION = "\"";
+	private final static String PARENTHESIS_LEFT = "{";
+	private final static String PARENTHESIS_RIGHT = "}";
 	private final static String EQ = "=";
 	
 	private String buildPlainText(HttpServletRequest request) {
@@ -57,22 +86,35 @@ public class FooController {
 		sb.append(TAB).append("Client Port").append(COLON).append(request.getRemotePort()).append(RETURN);
 		sb.append(TAB).append("Client Hostname").append(COLON).append(request.getRemoteHost()).append(RETURN).append(RETURN);
 		
-		sb.append(TAB).append("Session").append(COLON).append(request.getSession().getId()).append(RETURN).append(RETURN);
+		sb.append(TAB).append("Session").append(COLON).append(request.getSession() == null ? "XXXX" : request.getSession().getId()).append(RETURN).append(RETURN);
 		
 		sb.append(TAB).append("Cookies").append(COLON).append(buildCookiePlainText(request)).append(RETURN).append(RETURN);
 		
-//		sb.append(TAB).append("Headers").append(COLON).append(buildHeadersPlainText(request)).append(RETURN).append(RETURN);
+		sb.append(TAB).append("Request Headers").append(COLON).append(buildHeadersPlainText(request)).append(RETURN).append(RETURN);
 		
 		return sb.toString();
 	}
 
 	
 
+	private Object buildHeadersPlainText(HttpServletRequest request) {
+		
+		Map<String, List<String>> headersMap = Collections
+			    .list(request.getHeaderNames())
+			    .stream()
+			    .collect(Collectors.toMap(
+			        Function.identity(), 
+			        h -> Collections.list(request.getHeaders(h))
+			    ));
+		
+		return headersMap.toString();
+	}
+
 	private Object buildCookiePlainText(HttpServletRequest request) {
 		
 		Cookie [] cookies = request.getCookies();
 		
-		if(cookies.length == 0) {
+		if(cookies == null || cookies.length == 0) {
 			return EMPTY;
 		}
 		

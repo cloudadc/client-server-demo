@@ -13,7 +13,10 @@ mvn clean install
 [source, bash]
 .*Run*
 ----
-$ java -jar target/backend-0.0.2.jar
+$ java -jar target/backend-0.0.4.jar
+
+// altertive, to run with system parameters
+$ java -DAPP_DATACENTER_NAME=MP -DAPP_VERSION_NUMBER=1.1 -jar target/backend-0.0.4.jar
 ----
 
 [source, bash]
@@ -26,6 +29,7 @@ $ curl http://localhost:8080/api/fruits
 
 $ curl http://localhost:8080/api/fruits/3
 {"id":3,"name":"Banana"}
+
 ----
 
 *Test Via API UI*
@@ -44,6 +48,8 @@ docker build -t backend .
 .*Run*
 ----
 docker run -p 8080:8080 backend
+
+docker run -e "APP_DATACENTER_NAME=MP" -e "APP_VERSION_NUMBER=1.0" -p 8080:8080 backend
 ----
 
 [source, bash]
@@ -66,8 +72,8 @@ http://localhost:8080/swagger-ui.html
 [source, bash]
 .*Push image to a docker registry*
 ----
-docker tag backend:latest kylinsoong/backend:0.0.2
-docker push kylinsoong/backend:0.0.2
+docker tag backend:latest kylinsoong/backend:0.0.4
+docker push kylinsoong/backend:0.0.4
 ----
 
 == Run with k8s
