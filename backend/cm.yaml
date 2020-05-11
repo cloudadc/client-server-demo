@@ -1,0 +1,72 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: vs-ratio
+  labels:
+    f5type: virtual-server
+    as3: "true"
+data:
+  template: |
+    {
+      "class": "AS3",
+      "action": "deploy",
+      "persist": true, 
+      "declaration": {
+        "class": "ADC",
+        "schemaVersion": "3.11.0",
+        "id": "vs_ratio",
+        "label": "test001",
+        "remark": "HTTP application",
+        "test001": {
+          "class": "Tenant",
+          "test001_v1": {
+            "class": "Application",
+            "template": "generic",
+            "app_v1_svc_vs": {
+              "class": "Service_HTTP",
+              "virtualAddresses": [
+                "10.1.10.11"
+              ],
+              "virtualPort": 80,
+              "pool": "app_v1_svc_pool"
+            },
+            "app_v1_svc_pool": {
+              "class": "Pool",
+              "monitors": [
+                "tcp"
+              ],
+              "members": [
+              {
+                "servicePort": 80,
+                "serverAddresses": []
+              }
+              ]
+            }
+          },
+           "test001_v2": {
+            "class": "Application",
+            "template": "generic",
+            "app_v2_svc_vs": {
+              "class": "Service_HTTP",
+              "virtualAddresses": [
+                "10.1.10.12"
+              ],
+              "virtualPort": 80,
+              "pool": "app_v2_svc_pool"
+            },
+            "app_v2_svc_pool": {
+              "class": "Pool",
+              "monitors": [
+                "tcp"
+              ],
+              "members": [
+              {
+                "servicePort": 80,
+                "serverAddresses": []
+              }
+              ]
+            }
+          }
+        }
+      }
+    }

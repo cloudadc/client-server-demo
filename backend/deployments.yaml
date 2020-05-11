@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: app-v1
+  name: app-v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-v1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: app-v1
+    spec:
+      containers:
+      - image: kylinsoong/backend:0.0.4
+        name: backend
+        ports:
+        - containerPort: 8080
+        env:
+        - name: APP_DATACENTER_NAME
+          value: "MP"
+        - name: APP_VERSION_NUMBER
+          value: "1.0"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: app-v2
+  name: app-v2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-v2
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: app-v2
+    spec:
+      containers:
+      - image: kylinsoong/backend:0.0.4
+        name: backend
+        ports:
+        - containerPort: 8080
+        env:
+        - name: APP_DATACENTER_NAME
+          value: "MP"
+        - name: APP_VERSION_NUMBER
+          value: "1.2"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: app-v1
+    cis.f5.com/as3-tenant: "test001"
+    cis.f5.com/as3-app: "test001_v1"
+    cis.f5.com/as3-pool: "app_v1_svc_pool"
+  name: app-v1-svc
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: app-v1
+  type: NodePort
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: app-v2
+    cis.f5.com/as3-tenant: "test001"
+    cis.f5.com/as3-app: "test001_v2"
+    cis.f5.com/as3-pool: "app_v2_svc_pool"
+  name: app-v2-svc
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: app-v2
+  type: NodePort
+
