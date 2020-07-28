@@ -18,7 +18,7 @@ spec:
         app: app-v1
     spec:
       containers:
-      - image: kylinsoong/backend:0.0.4
+      - image: cloudadc/backend:0.0.4
         name: backend
         ports:
         - containerPort: 8080
@@ -50,7 +50,7 @@ spec:
         app: app-v2
     spec:
       containers:
-      - image: kylinsoong/backend:0.0.4
+      - image: cloudadc/backend:0.0.4
         name: backend
         ports:
         - containerPort: 8080

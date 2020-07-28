@@ -1,0 +1,46 @@
+= What's this
+
+A microservice demo.
+
+== Run locally
+
+[source, bash]
+.*Run*
+----
+java -jar target/backend-0.0.4.jar
+java -DBACKEND_HOST=127.0.0.1 -DBACKEND_PORT=8080 -jar target/frontend-0.0.4.jar
+----
+
+[source, bash]
+.*Test*
+----
+$ curl http://localhost:8090/ui
+----
+
+== Run with Docker
+
+[source, bash]
+.*build*
+----
+docker build -t frontend .
+----
+
+[source, bash]
+.*Run*
+----
+docker run -e "BACKEND_HOST=localhost" -e "BACKEND_PORT=8080" -p 8090:8090 frontend
+----
+
+[source, bash]
+.*Test*
+----
+$ curl http://localhost:8090/ui
+----
+
+[source, bash]
+.*Push image to a docker registry*
+----
+docker tag frontend:latest cloudadc/frontend:0.0.4
+docker push cloudadc/frontend:0.0.4
+----
+

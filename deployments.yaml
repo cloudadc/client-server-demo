@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: backend
+  name: backend
+  namespace: fruits
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - image: cloudadc/backend:0.0.4
+        name: backend
+        ports:
+        - containerPort: 8080
+        env:
+        - name: APP_DATACENTER_NAME
+          value: "TEST"
+        - name: APP_VERSION_NUMBER
+          value: "1.0"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: backend
+    cis.f5.com/as3-tenant: "fruits"
+    cis.f5.com/as3-app: "fruits_backend"
+    cis.f5.com/as3-pool: "fruits_backend_pool"
+  name: backend
+  namespace: fruits
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: backend
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: frontend
+  name: frontend
+  namespace: fruits
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - image: cloudadc/frontend:0.0.4
+        name: frontend
+        ports:
+        - containerPort: 8090
+        env:
+        - name: BACKEND_HOST
+          value: "backend"
+        - name: BACKEND_PORT
+          value: "80"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: frontend
+    cis.f5.com/as3-tenant: "fruits"
+    cis.f5.com/as3-app: "fruits_frontend"
+    cis.f5.com/as3-pool: "fruits_frontend_pool"
+  name: frontend
+  namespace: fruits
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8090
+  selector:
+    app: frontend
+  type: ClusterIP
