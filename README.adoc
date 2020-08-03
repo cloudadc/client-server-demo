@@ -12,4 +12,21 @@ image:etc/img/micro-demo-backend.png[]
 
 Thr Frontend Service will call Backend Service which will show results on UI.
 
- 
+== Deployments
+
+Deploy the fruits services(both frontend and backend)
+
+[source, bash]
+----
+// deploy to k8s
+kubectl apply -f fruits.yaml
+
+// deploy to istio
+kubectl apply -f fruits-istio.yaml
+kubectl apply -f fruits-istio-gateway.yaml
+----
+
+Access the *http://HOST/ui*, the request will go into frontend, and the frontend will call backend.
+
+
+
