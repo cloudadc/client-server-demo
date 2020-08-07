@@ -1,7 +1,8 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: vs-ratio
+  name: cm-cistest
+  namespace: cistest
   labels:
     f5type: virtual-server
     as3: "true"
@@ -10,58 +11,58 @@ data:
     {
       "class": "AS3",
       "action": "deploy",
-      "persist": true, 
+      "persist": true,
       "declaration": {
         "class": "ADC",
-        "schemaVersion": "3.11.0",
-        "id": "vs_ratio",
-        "label": "test001",
-        "remark": "HTTP application",
-        "test001": {
+        "schemaVersion": "3.19.0",
+        "id": "cm-cistest",
+        "cistest": {
           "class": "Tenant",
-          "test001_v1": {
+          "cistest": {
             "class": "Application",
             "template": "generic",
-            "app_v1_svc_vs": {
+            "app_svc_vs_http": {
               "class": "Service_HTTP",
+              "persistenceMethods": [ "cookie" ],
               "virtualAddresses": [
-                "10.1.10.11"
+                "192.168.5.40"
               ],
+              "snat": "self",
               "virtualPort": 80,
-              "pool": "app_v1_svc_pool"
+              "pool": "cistest_app_http_svc_pool"
             },
-            "app_v1_svc_pool": {
+            "app_svc_vs_management": {
+              "class": "Service_HTTP",
+              "persistenceMethods": [ "cookie" ],
+              "virtualAddresses": [
+                "192.168.5.40"
+              ],
+              "snat": "self",
+              "virtualPort": 8081,
+              "pool": "cistest_app_management_svc_pool"
+            },
+            "cistest_app_http_svc_pool": {
               "class": "Pool",
               "monitors": [
                 "tcp"
               ],
+              "loadBalancingMode": "least-connections-member",
               "members": [
               {
                 "servicePort": 80,
                 "serverAddresses": []
               }
               ]
-            }
-          },
-           "test001_v2": {
-            "class": "Application",
-            "template": "generic",
-            "app_v2_svc_vs": {
-              "class": "Service_HTTP",
-              "virtualAddresses": [
-                "10.1.10.12"
-              ],
-              "virtualPort": 80,
-              "pool": "app_v2_svc_pool"
             },
-            "app_v2_svc_pool": {
+            "cistest_app_management_svc_pool": {
               "class": "Pool",
               "monitors": [
                 "tcp"
               ],
+              "loadBalancingMode": "least-connections-member",
               "members": [
               {
-                "servicePort": 80,
+                "servicePort": 8081,
                 "serverAddresses": []
               }
               ]
