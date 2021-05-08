@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,7 +40,15 @@ public class FooController {
 		return buildPlainText(request);
 	}
 	
+	
+	@RequestMapping(path = {"/info"}, method = {RequestMethod.GET})
+	@Operation(summary = "Get app information", description = "Get app information API")
+	public String info() {
+		return new APPInfo("io.cloudadc", "backend", "0.0.9").toString();
+	}
+	
 	@RequestMapping(path = {"/version"}, method = {RequestMethod.GET})
+	@Operation(summary = "Get Version", description = "Get Version API")
 	public String version(HttpServletRequest request) {
 		
 		StringBuffer sb = new StringBuffer();
@@ -56,6 +65,12 @@ public class FooController {
 		sb.append(RETURN);
 		
 		return sb.toString();
+	}
+	
+	@RequestMapping(path = {"/health"}, method = {RequestMethod.GET})
+	@Operation(summary = "Health Check", description = "Health Check API")
+	public String health() {
+		return "ok";
 	}
 	
 	private final static String RETURN = "\n";
@@ -90,7 +105,13 @@ public class FooController {
 		
 		sb.append(TAB).append("Cookies").append(COLON).append(buildCookiePlainText(request)).append(RETURN).append(RETURN);
 		
+		sb.append(TAB).append("Protocol").append(COLON).append(request.getProtocol()).append(RETURN).append(RETURN);
+		
 		sb.append(TAB).append("Request Headers").append(COLON).append(buildHeadersPlainText(request)).append(RETURN).append(RETURN);
+		
+		
+		String remoteAddr = request.getHeader("X-FORWARDED-FOR");
+		sb.append(TAB).append("X-Forwarded-For").append(COLON).append(remoteAddr).append(RETURN).append(RETURN);
 		
 		return sb.toString();
 	}

@@ -1,10 +1,15 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test001
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     app: app-v1
   name: app-v1
+  namespace: test001
 spec:
   replicas: 2
   selector:
@@ -13,30 +18,27 @@ spec:
   strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: app-v1
     spec:
       containers:
-      - image: cloudadc/backend:0.0.4
+      - image: cloudadc/backend:0.0.6
         name: backend
         ports:
         - containerPort: 8080
         env:
         - name: APP_DATACENTER_NAME
-          value: "MP"
+          value: "TEST"
         - name: APP_VERSION_NUMBER
           value: "1.0"
-
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     app: app-v2
   name: app-v2
+  namespace: test001
 spec:
   replicas: 2
   selector:
@@ -50,28 +52,25 @@ spec:
         app: app-v2
     spec:
       containers:
-      - image: cloudadc/backend:0.0.4
+      - image: cloudadc/backend:0.0.6
         name: backend
         ports:
         - containerPort: 8080
         env:
         - name: APP_DATACENTER_NAME
-          value: "MP"
+          value: "TEST"
         - name: APP_VERSION_NUMBER
-          value: "1.2"
-
+          value: "1.1"
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: null
   labels:
-    app: app-v1
     cis.f5.com/as3-tenant: "test001"
-    cis.f5.com/as3-app: "test001_v1"
-    cis.f5.com/as3-pool: "app_v1_svc_pool"
+    cis.f5.com/as3-app: "test001_app-v1-svc_svc"
+    cis.f5.com/as3-pool: "test001_app-v1-svc_80_pool"
   name: app-v1-svc
+  namespace: test001
 spec:
   ports:
   - port: 80
@@ -79,20 +78,17 @@ spec:
     targetPort: 8080
   selector:
     app: app-v1
-  type: NodePort
-
+  type: ClusterIP
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: null
   labels:
-    app: app-v2
     cis.f5.com/as3-tenant: "test001"
-    cis.f5.com/as3-app: "test001_v2"
-    cis.f5.com/as3-pool: "app_v2_svc_pool"
+    cis.f5.com/as3-app: "test001_app-v2-svc_svc"
+    cis.f5.com/as3-pool: "test001_app-v2-svc_80_pool"
   name: app-v2-svc
+  namespace: test001
 spec:
   ports:
   - port: 80
@@ -100,5 +96,5 @@ spec:
     targetPort: 8080
   selector:
     app: app-v2
-  type: NodePort
+  type: ClusterIP
 

@@ -13,10 +13,10 @@ mvn clean install
 [source, bash]
 .*Run*
 ----
-$ java -jar target/backend-0.0.5.jar
+$ java -jar target/backend-0.0.9.jar
 
 // altertive, to run with system parameters
-$ java -DAPP_DATACENTER_NAME=MP -DAPP_VERSION_NUMBER=1.1 -jar target/backend-0.0.5.jar
+$ java -DAPP_DATACENTER_NAME=MP -DAPP_VERSION_NUMBER=1.1 -jar target/backend-0.0.9.jar
 ----
 
 [source, bash]
@@ -49,9 +49,9 @@ docker build -t backend .
 [source, bash]
 .*Run*
 ----
-docker run -p 8080:8080 backend
+docker run -p 80.0.9080 backend
 
-docker run -e "APP_DATACENTER_NAME=MP" -e "APP_VERSION_NUMBER=1.0" -p 8080:8080 backend
+docker run -e "APP_DATACENTER_NAME=MP" -e "APP_VERSION_NUMBER=1.0" -p 80.0.9080 backend
 ----
 
 [source, bash]
@@ -74,8 +74,8 @@ http://localhost:8080/swagger-ui.html
 [source, bash]
 .*Push image to a docker registry*
 ----
-docker tag backend:latest cloudadc/backend:0.0.5
-docker push cloudadc/backend:0.0.5
+docker tag backend:latest cloudadc/backend:0.0.9
+docker push cloudadc/backend:0.0.9
 ----
 
 == Run with k8s
