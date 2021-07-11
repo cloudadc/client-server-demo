@@ -5,20 +5,21 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.backend.fruits.Fruit;
 
 @RestController
-@RequestMapping(produces = {"application/json", "application/xml"})
+@RequestMapping(produces = {"text/plain", "application/*"})
 @Tag(name = "fruit", description = "The fruit API")
 public class FruitController {
-  static List<Fruit> repository = Collections.synchronizedList(new ArrayList<>());
+	
+  static List<Fruit> repository = new ArrayList<>();
   
   static {
     repository.add(new Fruit(Long.valueOf(1L), "Cherry"));
@@ -26,13 +27,16 @@ public class FruitController {
     repository.add(new Fruit(Long.valueOf(3L), "Banana"));
   }
   
-  @RequestMapping(path = {"/api/fruits"}, method = {RequestMethod.GET})
+  @RequestMapping(path = {"/fruits"}, method = {RequestMethod.GET}, produces = {"text/plain", "application/*"})
+  @ResponseBody
   @Operation(summary = "Get all fruits", description = "Return all fruits in repositories")
   public List<Fruit> getAll() {
+	System.out.println("/fruits: " + repository);
     return repository;
   }
   
-  @RequestMapping(path = {"/api/fruits/{id}"}, method = {RequestMethod.GET})
+  @RequestMapping(path = {"/fruits/{id}"}, method = {RequestMethod.GET})
+  @ResponseBody
   @Operation(summary = "Get fruit by id", description = "Returns fruit for id specified.")
   public Fruit getFruit(@Parameter(description = "Fruit id", required = true) @PathVariable("id") Long id) {
     for (int i = 0; i < repository.size(); i++) {
