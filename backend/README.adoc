@@ -49,9 +49,9 @@ docker build -t backend .
 [source, bash]
 .*Run*
 ----
-docker run -p 80.0.9080 backend
+docker run -p 8080:9080 backend
 
-docker run -e "APP_DATACENTER_NAME=MP" -e "APP_VERSION_NUMBER=1.0" -p 80.0.9080 backend
+docker run -e "APP_DATACENTER_NAME=MP" -e "APP_VERSION_NUMBER=1.0" -p 8080:9080 backend
 ----
 
 [source, bash]
