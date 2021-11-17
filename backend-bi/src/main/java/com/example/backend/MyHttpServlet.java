@@ -15,9 +15,12 @@ public class MyHttpServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		resp.setContentType("text/html");
-//		PrintWriter out = resp.getWriter();
-//	     out.println("<h3>Hello India!</h3>");
+		System.out.println("----> BI HTTP");
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		resp.sendRedirect("/webroot/decision/login");
 	}
 
