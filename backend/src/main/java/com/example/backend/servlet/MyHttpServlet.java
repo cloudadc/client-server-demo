@@ -57,8 +57,6 @@ public class MyHttpServlet extends HttpServlet {
 		resp.addCookie(s);
 		
 		PrintWriter out = resp.getWriter();
-		out.println("<h1>Cookie Test</h1>");
-		out.println("<h2>Request Headers:</h2>");
 		String text = buildPlainText(req);
 		System.out.println(text);
 		out.println(text);
@@ -75,9 +73,10 @@ public class MyHttpServlet extends HttpServlet {
 		StringBuffer sb = new StringBuffer();
 		
 		sb.append(RETURN);
-		sb.append("F5 Demo App").append(RETURN).append(RETURN);
+		sb.append("<h1>F5 Demo App</h1>").append(RETURN).append(RETURN);
 		
-		sb.append(TAB).append("Request URI").append(COLON).append(request.getRequestURI()).append(RETURN).append(RETURN);
+		sb.append(TAB).append("Request URI").append(COLON).append(request.getRequestURI()).append(RETURN);
+		sb.append(TAB).append("Protocol").append(COLON).append(request.getProtocol()).append(RETURN).append(RETURN);
 		
 		sb.append(TAB).append("Server IP").append(COLON).append(request.getLocalAddr()).append(RETURN);
 		sb.append(TAB).append("Server Port").append(COLON).append(request.getLocalPort()).append(RETURN);
@@ -89,11 +88,11 @@ public class MyHttpServlet extends HttpServlet {
 		
 		sb.append(TAB).append("Session").append(COLON).append(request.getSession() == null ? "XXXX" : request.getSession().getId()).append(RETURN).append(RETURN);
 		
-		sb.append(TAB).append("Cookies").append(COLON).append(RETURN).append(buildCookiePlainText(request)).append(RETURN).append(RETURN);
+		sb.append(TAB).append("<h2>Cookies</h2>").append(RETURN).append(buildCookiePlainText(request)).append(RETURN).append(RETURN);
 		
-		sb.append(TAB).append("Protocol").append(COLON).append(request.getProtocol()).append(RETURN).append(RETURN);
 		
-		sb.append(TAB).append("Request Headers").append(COLON).append(RETURN).append(buildHeadersPlainText(request)).append(RETURN).append(RETURN);
+		
+		sb.append(TAB).append("<h2>Request Headers</h2>").append(RETURN).append(buildHeadersPlainText(request)).append(RETURN).append(RETURN);
 		
 		
 		String remoteAddr = request.getHeader("X-FORWARDED-FOR");
