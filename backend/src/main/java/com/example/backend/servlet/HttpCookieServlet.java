@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(urlPatterns = "/webroot/cookies", loadOnStartup = 1)
-public class MyHttpServlet extends HttpServlet {
+public class HttpCookieServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 2712871415862760601L;
 	
@@ -89,7 +89,6 @@ public class MyHttpServlet extends HttpServlet {
 		sb.append(TAB).append("Session").append(COLON).append(request.getSession() == null ? "XXXX" : request.getSession().getId()).append(RETURN).append(RETURN);
 		
 		sb.append(TAB).append("<h2>Cookies</h2>").append(RETURN).append(buildCookiePlainText(request)).append(RETURN).append(RETURN);
-		
 		
 		
 		sb.append(TAB).append("<h2>Request Headers</h2>").append(RETURN).append(buildHeadersPlainText(request)).append(RETURN).append(RETURN);
