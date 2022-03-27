@@ -38,13 +38,13 @@ public class FooController {
 	}
 	
 	
-	@RequestMapping(path = {"/app/info"}, method = {RequestMethod.GET})
+	@RequestMapping(path = {"/info"}, method = {RequestMethod.GET})
 	@Operation(summary = "Get app information", description = "Get app information API")
 	public String info() {
 		return new APPInfo("io.cloudadc", "backend", env("APP_VERSION_NUMBER")).toString();
 	}
 	
-	@RequestMapping(path = {"/app/version"}, method = {RequestMethod.GET})
+	@RequestMapping(path = {"/version"}, method = {RequestMethod.GET})
 	@Operation(summary = "Get Version", description = "Get Version API")
 	public String version(HttpServletRequest request) {
 		
@@ -64,7 +64,7 @@ public class FooController {
 		return sb.toString();
 	}
 	
-	@RequestMapping(path = {"/app/health"}, method = {RequestMethod.GET})
+	@RequestMapping(path = {"/health"}, method = {RequestMethod.GET})
 	@Operation(summary = "Health Check", description = "Health Check API")
 	public String health() {
 		return env("APP_DATACENTER_NAME") + COLON + env("APP_VERSION_NUMBER") + " RUNNING";

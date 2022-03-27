@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@Tag(name = "RewriteController", description = "The RewriteController API")
-public class RewriteController {
+@Tag(name = "Nginx", description = "The Nginx Backend API")
+public class NginxBackendController {
 	
-	private Logger log = LoggerFactory.getLogger(RewriteController.class);
+	private Logger log = LoggerFactory.getLogger(NginxBackendController.class);
 	
 	@RequestMapping(path = {"/webroot/decision/login"}, method = {RequestMethod.GET})
     @ResponseBody
@@ -24,5 +25,11 @@ public class RewriteController {
 		log.info("----> " + env("APP_DECISION_BI_RPT"));
         return "<h1>" + env("APP_DECISION_BI_RPT") + " Login Page.. !</h1>";
     }
+	
+	@RequestMapping(path = {"/rlzy"}, method = {RequestMethod.GET})
+	@Operation(summary = "rlzy rest API", description = "rlzy rest API")
+	public String rest() {
+		return "rxyz rest";
+	}
 
 }

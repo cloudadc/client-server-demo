@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+   
+   <head>
+      <title>F5 Demo App</title>
+   </head>
+	
+   <body>
+      <h1>F5 Demo App</h1>
+      
+      <h2>REST</h2>
+      <li><a href = "/swagger-ui.html">/swagger-ui.html</a></li>
+      <li><a href = "/v3/api-docs">/v3/api-docs</a></li>
+      
+      <h2>Servlets</h2>
+      <li><a href = "/webroot/cookies">HTTP Cookie</a></li>
+      <li><a href = "/webroot/decision">HTTP Rewrite</a></li>
+      <li><a href = "/decision">HTTP Rewrite V2</a></li>
+      
+      
+      <h2>WebSockets</h2>
+      <li><a href = "/rlzy/websocket">/rlzy/websocket</a></li>
+      <li><a href = "/rlzy/ws">/rlzy/ws</a></li>
+      
+   </body>
+	
+</html>
