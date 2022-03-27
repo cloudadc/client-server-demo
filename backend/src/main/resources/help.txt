@@ -13,8 +13,9 @@
       <li><a href = "/v3/api-docs">/v3/api-docs</a></li>
       
       <h2>Servlets</h2>
-      <li><a href = "/webroot/cookies">HTTP Cookie</a></li>
-      <li><a href = "/webroot/decision">HTTP Rewrite</a></li>
+      <li><a href = "/webroot/headers">HTTP Headers</a></li>
+      <li><a href = "/webroot/cookies">HTTP Cookies</a></li>
+      <li><a href = "/webroot/decision">HTTP URL Rewrite</a></li>
       <li><a href = "/decision">HTTP Rewrite V2</a></li>
       
       

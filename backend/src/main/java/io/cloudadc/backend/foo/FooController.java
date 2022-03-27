@@ -2,9 +2,6 @@ package io.cloudadc.backend.foo;
 
 import static io.cloudadc.backend.Utils.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,18 +67,6 @@ public class FooController {
 		return env("APP_DATACENTER_NAME") + COLON + env("APP_VERSION_NUMBER") + " RUNNING";
 	}
 	
-	@RequestMapping(path = {"/app/servlets"}, method = {RequestMethod.GET})
-	@Operation(summary = "ALl Avaliable Servlet API", description = "ALl Avaliable Servlet API")
-	public String registry() {
-		
-		Map<String, String> map = new HashMap<>();
-		
-		map.put("/webroot/cookies", "HTTP Cookie Servlet");
-		map.put("/webroot/decision", "HTTP Rewrite Servlet");
-		
-		return map.toString();
-		
-	}
 	
 	
 

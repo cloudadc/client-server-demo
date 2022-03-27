@@ -47,7 +47,6 @@ public class HttpCookieServlet extends HttpServlet {
 		
 		PrintWriter out = resp.getWriter();
 		String text = buildPlainTextServlet(req);
-		System.out.println(text);
 		out.println(text);
 		
 	}

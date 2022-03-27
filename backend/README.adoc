@@ -38,14 +38,14 @@ http://localhost:8080/swagger-ui.html
 .*build*
 ----
 docker build -t backend .
+docker tag backend:latest cloudadc/backend:0.1.1
+docker push cloudadc/backend:0.1.1
 ----
 
 [source, bash]
 .*Run*
 ----
-docker run -p 8080:1080 backend
-
-docker run -e "APP_DATACENTER_NAME=MP" -e "APP_VERSION_NUMBER=1.0" -e "APP_DECISION_BI_RPT=BI" -p 8080:1080 backend
+docker run -e "APP_DATACENTER_NAME=MP" -e "APP_VERSION_NUMBER=1.0" -e "APP_DECISION_BI_RPT=BI" -p 8080:8080 cloudadc/backend:0.1.1
 ----
 
 [source, bash]
@@ -65,19 +65,13 @@ $ curl http://localhost:8080/api/fruits/3
 http://localhost:8080/swagger-ui.html
 
 
-[source, bash]
-.*Push image to a docker registry*
-----
-docker tag backend:latest cloudadc/backend:0.1.1
-docker push cloudadc/backend:0.1.1
-----
 
 == Run with k8s
 
 [source, bash]
 .*Deploy*
 ----
-kubectl create deployment backend --image=cloudadc/backend:0.0.2 -n test
+kubectl create deployment backend --image=cloudadc/backend:0.1.1 -n test
 ----
 
 [source, bash]
@@ -102,4 +96,3 @@ $ curl http://192.168.100.101:31509/api/fruits/3
 *Test Via API UI*
 
 http://192.168.100.101:31509/swagger-ui.html
-

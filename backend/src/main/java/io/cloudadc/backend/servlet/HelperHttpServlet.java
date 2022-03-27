@@ -1,6 +1,5 @@
 package io.cloudadc.backend.servlet;
 
-import static io.cloudadc.backend.Utils.*;
 
 import java.io.IOException;
 import java.io.InputStream;
