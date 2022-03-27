@@ -1,74 +1,36 @@
-package com.example.backend.servlet;
+package io.cloudadc.backend;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = "/webroot/cookies", loadOnStartup = 1)
-public class HttpCookieServlet extends HttpServlet {
-
-	private static final long serialVersionUID = 2712871415862760601L;
+public class Utils {
 	
-	private final static String RETURN = "<br>";
-	private final static String TAB = "    ";
-	private final static String COLON = ": ";
-	private final static String EMPTY = " ";
-	private final static String COMMA = ",";
-	private final static String EQ = "=";
-
+	public final static String RETURN = "<br>";
+	public final static String TAB = "    ";
+	public final static String COLON = ": ";
+	public final static String EMPTY = " ";
+	public final static String COMMA = ",";
+	public final static String EQ = "=";
+	public final static String BLANK = " ";
+	public final static String QUOTATION = "\"";
+	public final static String PARENTHESIS_LEFT = "{";
+	public final static String PARENTHESIS_RIGHT = "}";
 	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		Cookie rememberMe = new Cookie("rememberMe", "deleteMe");
-		rememberMe.setPath("/");
-		rememberMe.setMaxAge(0);
-		resp.addCookie(rememberMe);
-		
-		Cookie session = new Cookie("JSESSIONID", req.getSession() == null ? "XXXX" : req.getSession().getId());
-		session.setPath("/");
-		session.setDomain("mp.io");
-		resp.addCookie(session);
-		
-		Cookie mstep = new Cookie("SESSION_MSTEP_COOKIE", "8148814898125824000");
-		mstep.setPath("/");
-		mstep.setDomain("www.mpoin.cebbank.com");
-		mstep.setHttpOnly(false);
-		mstep.setSecure(true);
-		resp.addCookie(mstep);
-		
-		Cookie wt_user = new Cookie("WT_USER_ID", "5622-2456734867");
-		wt_user.setPath("/");
-		resp.addCookie(wt_user);
-		
-		Cookie s = new Cookie("S", "3ED3E4C8");
-		s.setPath("/");
-		resp.addCookie(s);
-		
-		PrintWriter out = resp.getWriter();
-		String text = buildPlainText(req);
-		System.out.println(text);
-		out.println(text);
-		
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		doGet(req, resp);
+	public static String env(String virable) {
+		String value = System.getenv(virable);
+		if(null == value) {
+			value = System.getProperty(virable, "none");
+		}
+		return value;
 	}
 	
-	private String buildPlainText(HttpServletRequest request) {
+    public static String buildPlainTextServlet(HttpServletRequest request) {
 		
 		StringBuffer sb = new StringBuffer();
 		
@@ -99,8 +61,41 @@ public class HttpCookieServlet extends HttpServlet {
 		
 		return sb.toString();
 	}
+    
+    public static String buildPlainText(HttpServletRequest request) {
+		
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append(RETURN);
+		sb.append("F5 Demo App").append(RETURN).append(RETURN);
+		
+		sb.append(TAB).append("Request URI").append(COLON).append(request.getRequestURI()).append(RETURN).append(RETURN);
+		
+		sb.append(TAB).append("Server IP").append(COLON).append(request.getLocalAddr()).append(RETURN);
+		sb.append(TAB).append("Server Port").append(COLON).append(request.getLocalPort()).append(RETURN);
+		sb.append(TAB).append("Server Hostname").append(COLON).append(request.getLocalName()).append(RETURN).append(RETURN);
+		
+		sb.append(TAB).append("Client IP").append(COLON).append(request.getRemoteAddr()).append(RETURN);
+		sb.append(TAB).append("Client Port").append(COLON).append(request.getRemotePort()).append(RETURN);
+		sb.append(TAB).append("Client Hostname").append(COLON).append(request.getRemoteHost()).append(RETURN).append(RETURN);
+		
+		sb.append(TAB).append("Session").append(COLON).append(request.getSession() == null ? "XXXX" : request.getSession().getId()).append(RETURN).append(RETURN);
+		
+		sb.append(TAB).append("Cookies").append(COLON).append(buildCookiePlainText(request)).append(RETURN).append(RETURN);
+		
+		sb.append(TAB).append("Protocol").append(COLON).append(request.getProtocol()).append(RETURN).append(RETURN);
+		
+		sb.append(TAB).append("Request Headers").append(COLON).append(buildHeadersPlainText(request)).append(RETURN).append(RETURN);
+		
+		
+		String remoteAddr = request.getHeader("X-FORWARDED-FOR");
+		sb.append(TAB).append("X-Forwarded-For").append(COLON).append(remoteAddr).append(RETURN).append(RETURN);
+		
+		return sb.toString();
+	}
+    
 	
-	private String buildHeadersPlainText(HttpServletRequest request) {
+	private static String buildHeadersPlainText(HttpServletRequest request) {
 		
 		Map<String, List<String>> headersMap = Collections
 			    .list(request.getHeaderNames())
@@ -119,7 +114,7 @@ public class HttpCookieServlet extends HttpServlet {
 		return sb.toString();
 	}
 
-	private Object buildCookiePlainText(HttpServletRequest request) {
+	private static Object buildCookiePlainText(HttpServletRequest request) {
 		
 		Cookie [] cookies = request.getCookies();
 		
@@ -141,4 +136,5 @@ public class HttpCookieServlet extends HttpServlet {
 		
 		return sb.toString();
 	}
+
 }

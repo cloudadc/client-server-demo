@@ -1,4 +1,4 @@
-package com.example.backend;
+package io.cloudadc.backend;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

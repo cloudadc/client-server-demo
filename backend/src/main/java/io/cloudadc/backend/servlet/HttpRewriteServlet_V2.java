@@ -1,4 +1,6 @@
-package com.example.backend;
+package io.cloudadc.backend.servlet;
+
+import static io.cloudadc.backend.Utils.env;
 
 import java.io.IOException;
 
@@ -8,28 +10,28 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = "/webroot/decision", loadOnStartup = 1)
-public class MyHttpServlet extends HttpServlet {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-	private static final long serialVersionUID = 8519374420859509559L;
+@WebServlet(urlPatterns = "/decision")
+public class HttpRewriteServlet_V2 extends HttpServlet {
 
+
+	private static final long serialVersionUID = 2276471938208092587L;
+	
+	private Logger log = LoggerFactory.getLogger(HttpRewriteServlet_V2.class);
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		resp.setContentType("text/html");
-//		PrintWriter out = resp.getWriter();
-//	     out.println("<h3>Hello India!</h3>");
-		System.out.println("----> RPT HTTP");
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		resp.sendRedirect("/webroot/decision/login");
+		
+		log.info("----> " + env("APP_DECISION_BI_RPT"));
+		resp.sendRedirect("/webroot/decision");
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doGet(req, resp);
 	}
+
 
 }

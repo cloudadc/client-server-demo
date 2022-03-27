@@ -1,4 +1,4 @@
-package com.example.backend.fruits;
+package io.cloudadc.backend.fruits;
 
 public class Fruit {
 	

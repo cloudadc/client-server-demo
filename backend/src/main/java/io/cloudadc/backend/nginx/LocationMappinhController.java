@@ -1,4 +1,4 @@
-package com.example.backend.foo;
+package io.cloudadc.backend.nginx;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping(produces = "text/plain;charset=UTF-8")
 @Tag(name = "Proxy", description = "The Proxy Test API")
-public class ProxyController {
+public class LocationMappinhController {
 
 	@RequestMapping(path = {"/rxyz/rest"}, method = {RequestMethod.GET})
 	@Operation(summary = "/rxyz/rest API", description = "/rxyz/rest API")

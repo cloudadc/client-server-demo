@@ -1,6 +1,7 @@
-package com.example.backend.fruits;
+package io.cloudadc.backend.fruits;
 
 
+import io.cloudadc.backend.fruits.Fruit;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,11 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.backend.fruits.Fruit;
-
 @RestController
 @RequestMapping(produces = {"text/plain", "application/*"})
-@Tag(name = "fruit", description = "The fruit API")
+@Tag(name = "Fruit", description = "The fruit API")
 public class FruitController {
 	
   static List<Fruit> repository = new ArrayList<>();

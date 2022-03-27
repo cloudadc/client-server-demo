@@ -1,4 +1,4 @@
-package com.example.backend.foo;
+package io.cloudadc.backend.foo;
 
 public class APPInfo {
 
