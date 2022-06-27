@@ -12,10 +12,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @WebServlet(urlPatterns = "/webroot/cookies")
 public class HttpCookieServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 2712871415862760601L;
+	
+	Logger log = LoggerFactory.getLogger(HttpCookieServlet.class);
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,6 +49,14 @@ public class HttpCookieServlet extends HttpServlet {
 		Cookie s = new Cookie("S", "3ED3E4C8");
 		s.setPath("/");
 		resp.addCookie(s);
+		
+		Cookie[] cookies = req.getCookies();
+		if(cookies != null) {
+			for (Cookie cookie : cookies) {
+				log.info("cookie: " + cookie.getName() + " = " + cookie.getValue());
+				resp.addCookie(cookie);
+			}
+		}
 		
 		PrintWriter out = resp.getWriter();
 		String text = buildPlainTextServlet(req);

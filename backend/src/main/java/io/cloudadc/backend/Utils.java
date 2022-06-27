@@ -143,7 +143,7 @@ public class Utils {
 	}
 
 	
-	private static Object buildCookiePlainText(HttpServletRequest request) {
+	public static String buildCookiePlainText(HttpServletRequest request) {
 		
 		Cookie [] cookies = request.getCookies();
 		
