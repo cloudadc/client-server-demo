@@ -18,14 +18,21 @@
             document.getElementById('messages').innerHTML = 'Connected';
         };
         webSocket.onmessage = function(event) {
-            document.getElementById('messages').innerHTML += '<br />Receive:'+ event.data;
+            document.getElementById('messages').innerHTML += '<br />Receive: '+ event.data;
         };
+        webSocket.onclose = function(event){
+           
+        }
 
     }
     function send() {
         var msg = document.getElementById('msg').value;
-        document.getElementById('messages').innerHTML += '<br />Send:'+ msg;
+        document.getElementById('messages').innerHTML += '<br />Send: '+ msg;
         webSocket.send(msg);
+    }
+    function exit() {
+        document.getElementById('messages').innerHTML += '<br />Connected';
+        webSocket.close();
     }
     console.log('yyyy')
 </script>
@@ -51,6 +58,9 @@ div{
 <div>
     <input id="msg" />
     <button onclick="send()">  Send  </button>
+</div>
+<div>
+    <button onclick="exit()">  Close  </button>
 </div>
 <div id="messages"></div>
 
