@@ -13,7 +13,7 @@ mvn clean install
 [source, bash]
 .*Run*
 ----
-$ java -DAPP_DATACENTER_NAME=MP -DAPP_VERSION_NUMBER=1.1 -DAPP_DECISION_BI_RPT=BI -jar target/backend-0.1.1.jar
+$ java -DAPP_DATACENTER_NAME=MP -DAPP_VERSION_NUMBER=1.1 -DAPP_DECISION_BI_RPT=BI -jar target/backend-0.1.2.jar
 ----
 
 [source, bash]
@@ -38,14 +38,14 @@ http://localhost:8080/swagger-ui.html
 .*build*
 ----
 docker build -t backend .
-docker tag backend:latest cloudadc/backend:0.1.1
-docker push cloudadc/backend:0.1.1
+docker tag backend:latest cloudadc/backend:0.1.2
+docker push cloudadc/backend:0.1.2
 ----
 
 [source, bash]
 .*Run*
 ----
-docker run -e "APP_DATACENTER_NAME=MP" -e "APP_VERSION_NUMBER=1.0" -e "APP_DECISION_BI_RPT=BI" -p 8080:8080 cloudadc/backend:0.1.1
+docker run -e "APP_DATACENTER_NAME=MP" -e "APP_VERSION_NUMBER=1.0" -e "APP_DECISION_BI_RPT=BI" -p 8080:8080 cloudadc/backend:0.1.2
 ----
 
 [source, bash]
@@ -71,7 +71,7 @@ http://localhost:8080/swagger-ui.html
 [source, bash]
 .*Deploy*
 ----
-kubectl create deployment backend --image=cloudadc/backend:0.1.1 -n test
+kubectl create deployment backend --image=cloudadc/backend:0.1.2 -n test
 ----
 
 [source, bash]
@@ -84,15 +84,15 @@ kubectl expose deployment backend --port=80 --target-port=8080 --type='NodePort'
 [source, bash]
 .*Test - OpenAPI Doc/Get all/Get One*
 ----
-$ curl http://192.168.100.101:31509/v3/api-docs
+$ curl http://192.168.100.1.2:31509/v3/api-docs
 
-$ curl http://192.168.100.101:31509/api/fruits
+$ curl http://192.168.100.1.2:31509/api/fruits
 [{"id":1,"name":"Cherry"},{"id":2,"name":"Apple"},{"id":3,"name":"Banana"}]
 
-$ curl http://192.168.100.101:31509/api/fruits/3
+$ curl http://192.168.100.1.2:31509/api/fruits/3
 {"id":3,"name":"Banana"}
 ----
 
 *Test Via API UI*
 
-http://192.168.100.101:31509/swagger-ui.html
+http://192.168.100.1.2:31509/swagger-ui.html

@@ -28,8 +28,13 @@ kubectl apply -f fruits-istio-gateway.yaml
 
 Access the *http://HOST/ui*, the request will go into frontend, and the frontend will call backend.
 
+== WebSocketClient
 
-== Node.js Client
+=== Browser Client
+
+* http://localhost:8080/client.html
+
+=== Node.js Client
 
 [source, bash]
 .*Install Dependency*
@@ -41,28 +46,28 @@ npm install ws
 [source, bash]
 .*Test Entrypoint rlzy/ws*
 ----
-$ node client.js ws://localhost:8010/rlzy/ws "Hello, World"
-Connect to Server via  ws://localhost:8010/rlzy/ws
+$ node client.js ws://localhost:8080/rlzy/ws "Hello, World"
+Connect to Server via  ws://localhost:8080/rlzy/ws
 {"session": "93f23805-e023-7688-85a4-24da0f4762dd", "msg": "Hello, World", "date": "Sun May 23 00:16:15 CST 2021"}
 ----
 
 [source, bash]
 .*Test Entrypoint /rlzy/websocket*
 ----
-$ node client.js ws://localhost:8010/rlzy/websocket "This Test Mssge From Kylin SONG"
-Connect to Server via  ws://localhost:8010/rlzy/websocket
+$ node client.js ws://localhost:8080/rlzy/websocket "This Test Mssge From Kylin SONG"
+Connect to Server via  ws://localhost:8080/rlzy/websocket
 {"session": "c75b793e-340a-297b-3a75-93c587f7adfa", "msg": "This Test Mssge From Kylin SONG", "date": "Sun May 23 00:17:48 CST 2021"}
 ----
 
 [source, bash]
 .*Check the Spring Boot Server Log*
 ----
-Connection Established: StandardWebSocketSession[id=93f23805-e023-7688-85a4-24da0f4762dd, uri=ws://localhost:8010/rlzy/ws]
+Connection Established: StandardWebSocketSession[id=93f23805-e023-7688-85a4-24da0f4762dd, uri=ws://localhost:8080/rlzy/ws]
 93f23805-e023-7688-85a4-24da0f4762dd received: [Hello, World]
-Connection Closed: StandardWebSocketSession[id=93f23805-e023-7688-85a4-24da0f4762dd, uri=ws://localhost:8010/rlzy/ws]
+Connection Closed: StandardWebSocketSession[id=93f23805-e023-7688-85a4-24da0f4762dd, uri=ws://localhost:8080/rlzy/ws]
 
-Connection Established: StandardWebSocketSession[id=c75b793e-340a-297b-3a75-93c587f7adfa, uri=ws://localhost:8010/rlzy/websocket]
+Connection Established: StandardWebSocketSession[id=c75b793e-340a-297b-3a75-93c587f7adfa, uri=ws://localhost:8080/rlzy/websocket]
 c75b793e-340a-297b-3a75-93c587f7adfa received: [This Test Mssge From Kylin SONG]
-Connection Closed: StandardWebSocketSession[id=c75b793e-340a-297b-3a75-93c587f7adfa, uri=ws://localhost:8010/rlzy/websocket]
+Connection Closed: StandardWebSocketSession[id=c75b793e-340a-297b-3a75-93c587f7adfa, uri=ws://localhost:8080/rlzy/websocket]
 ----
 

@@ -26,11 +26,10 @@ spec:
         app: app
     spec:
       containers:
-      - image: cloudadc/backend:0.0.5
+      - image: cloudadc/backend:0.1.2
         name: backend
         ports:
         - containerPort: 8080
-        - containerPort: 8081
         env:
         - name: APP_DATACENTER_NAME
           value: "TEST"
@@ -54,10 +53,6 @@ spec:
     name: http
     protocol: TCP
     targetPort: 8080
-  - port: 8081
-    name: management
-    protocol: TCP
-    targetPort: 8081
   selector:
     app: app
   type: ClusterIP

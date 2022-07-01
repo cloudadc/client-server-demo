@@ -2,8 +2,8 @@ package io.cloudadc.backend.websocket;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,35 +15,55 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 public class MyTextWebSocketHandler extends TextWebSocketHandler {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(MyTextWebSocketHandler.class);
-    
-	private final List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
+    	
+	static Map<String,WebSocketSession> activeMap = new ConcurrentHashMap<>();
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		LOGGER.info("Connection Established: " + session.toString());
-		sessions.add(session);
-		super.afterConnectionEstablished(session);
+		activeMap.put(session.getId(),session);
+		sendMessageForAll(session.getId() + " join in !");
 	}
 
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		LOGGER.info("Connection Closed: " + session.toString());
-		sessions.remove(session);
-		super.afterConnectionClosed(session, status);
+		LOGGER.info("Connection Closed: " + session.toString() + ", " + status);
+		close(session);
 	}
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		LOGGER.info(session.getId() + " received: [" + message.getPayload() + "]");
-		sessions.forEach(webSocketSession -> {
-			try {
-				Msg msg = new Msg(session.getId(), message.getPayload(), new Date());
-				TextMessage toClient = new TextMessage(msg.payload());
-				webSocketSession.sendMessage(toClient);
-			} catch (IOException e) {
-				LOGGER.error("Error occurred.", e);
-			}
-		});
+		Msg msg = new Msg(session.getId(), message.getPayload(), new Date());
+		sendMessageForAll(msg.toString());
 	}
+
+	@Override
+	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
+		close(session);
+		LOGGER.error("Error occurred.", exception.getMessage());
+	}
+	
+	public void sendMessageForAll(String message) {
+        activeMap.forEach((sessionId, session) -> sendMessage(session, message));
+    }
+	
+	 private void sendMessage(WebSocketSession session, String message) {
+		 try {
+			 TextMessage toClient = new TextMessage(message);
+			 session.sendMessage(toClient);
+		 } catch (IOException e) {
+			 LOGGER.error("Error occurred.", e);
+		 }
+	 }
+	 
+	 private void close(WebSocketSession session) {
+	        try {
+	            activeMap.remove(session.getId());
+	            session.close();
+	        } catch (IOException e) {
+	        	LOGGER.error("Error occurred.", e);
+	        }
+	    }
 
 }
