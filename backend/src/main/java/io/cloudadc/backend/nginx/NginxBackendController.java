@@ -31,5 +31,15 @@ public class NginxBackendController {
 	public String rest() {
 		return "rxyz rest";
 	}
+	
+	@SuppressWarnings("static-access")
+	@RequestMapping(path = {"/webroot/content"}, method = {RequestMethod.GET})
+    @ResponseBody
+    public String content() throws InterruptedException{
+		
+		Thread.currentThread().sleep(1000 * 10);
+		
+        return "<h1> Content Page.. !</h1>";
+    }
 
 }
