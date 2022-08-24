@@ -1,6 +1,8 @@
 package io.cloudadc.backend.nginx;
 
-import static io.cloudadc.backend.Utils.env;
+import static io.cloudadc.backend.Utils.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,5 +43,11 @@ public class NginxBackendController {
 		
         return "<h1> Content Page.. !</h1>";
     }
+	
+	@RequestMapping(path = {"/sec/base_auth"}, method = {RequestMethod.GET})
+	@Operation(summary = "Security Base Auth API", description = "Security Base Auth API")
+	public String secBaseAuth(HttpServletRequest request) {
+		return "Authentication Success," + buildPlainTextReqHeaders(request);
+	}
 
 }

@@ -31,6 +31,12 @@ public class Utils {
 		return value;
 	}
 	
+	public static String buildPlainTextReqHeaders(HttpServletRequest request) {
+		StringBuffer sb = new StringBuffer();
+		sb.append(TAB).append("Request Headers").append(COLON).append(buildRequestHeadersPlainText(request)).append(LN).append(LN);
+		return sb.toString();
+	}
+	
 	public static String buildPlainText(HttpServletRequest request) {
 		
 		StringBuffer sb = new StringBuffer();
