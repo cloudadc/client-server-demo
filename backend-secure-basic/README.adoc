@@ -1,0 +1,23 @@
+= Build and Run
+
+[source, bash]
+.*Build*
+----
+mvn clean install
+----
+
+[source, bash]
+.*Run*
+----
+java -jar target/backend-sec-basic-0.1.4.jar 
+----
+
+[source, bash]
+.*Test*
+----
+$ for i in kylin user1 user2 ; do curl -u $i:default http://localhost:8080/hello ; echo ; done
+Hello World
+Hello World
+Hello World
+----
+
