@@ -1,0 +1,30 @@
+= Build and Run
+
+[source, bash]
+.*Build*
+----
+mvn clean install
+----
+
+[source, bash]
+.*Run*
+----
+// start mysql
+docker run -it --rm --name mysql -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=default mysql:5.7
+
+// local mysql.sql
+docker run -it --link mysql --rm mysql:5.7 mysql -hmysql -uroot -p
+
+
+java -jar target/backend-sec-basic-0.1.4.jar 
+----
+
+[source, bash]
+.*Test*
+----
+$ for i in kylin user1 user2 ; do curl -u $i:default http://localhost:8080/hello ; echo ; done
+Hello World
+Hello World
+Hello World
+----
+

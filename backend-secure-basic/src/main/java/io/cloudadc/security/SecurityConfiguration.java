@@ -26,6 +26,7 @@ public class SecurityConfiguration  {
 		return http.build();
 	}
 	
+	
 	@SuppressWarnings("deprecation")
 	@Bean
 	public InMemoryUserDetailsManager userDetailsService() {
@@ -51,7 +52,6 @@ public class SecurityConfiguration  {
 		
 		return new InMemoryUserDetailsManager(kylin, user1, user2);
 	}
-	
 	
 
 	
