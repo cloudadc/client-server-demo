@@ -27,7 +27,7 @@ public class SecurityConfiguration  {
             .authorizeRequests()
             .antMatchers("/admin/**")
             .hasRole("ADMIN")
-            .antMatchers("/user/**")
+            .antMatchers("/auth/login/**")
             .hasRole("USER")
             .antMatchers("/login*")
             .authenticated()
