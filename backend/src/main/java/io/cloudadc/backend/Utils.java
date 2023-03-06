@@ -44,7 +44,7 @@ public class Utils {
 		sb.append(RETURN);
 		sb.append("F5 Demo App").append(LN).append(LN);
 		
-		sb.append(TAB).append("Request URI").append(COLON).append(request.getRequestURI()).append(LN);
+		sb.append(TAB).append("Request URI").append(COLON).append(request.getRequestURI()).append(buildParameter(request.getParameterMap())).append(LN);
 		sb.append(TAB).append("Protocol").append(COLON).append(request.getProtocol()).append(LN).append(LN);
 		
 		sb.append(TAB).append("Server IP").append(COLON).append(request.getLocalAddr()).append(LN);
@@ -69,7 +69,34 @@ public class Utils {
 	}
     
 	
-    public static String buildPlainTextServlet(HttpServletRequest request) {
+    private static String buildParameter(Map<String, String[]> parameterMap) {
+    	
+    	if (parameterMap.size() == 0) {
+    		return "";
+    	}
+    	
+    	StringBuffer sb = new StringBuffer();
+    	sb.append("?");
+    	    	
+    	parameterMap.keySet().forEach(key -> {
+    		if(sb.length() > 3) {
+    			sb.append("&");
+    		}
+    		String[] array = parameterMap.get(key);
+    		String value = "";
+    		for(String s : array) {
+    			if(value.length() > 0) {
+    				value += "";
+    			}
+    			value += s;
+    		}
+    		sb.append(key).append("=").append(value);
+    	});
+    	
+		return sb.toString();
+	}
+
+	public static String buildPlainTextServlet(HttpServletRequest request) {
 		
 		StringBuffer sb = new StringBuffer();
 		
