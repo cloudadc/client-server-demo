@@ -8,7 +8,7 @@ LABEL maintainer "kylinsoong.1214@gmail.com"
 WORKDIR /app
 
 # Copy the runable jar into the container at /app
-ADD target/backend-0.1.4.jar /app
+ADD target/backend-0.1.5.jar /app
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
@@ -19,4 +19,4 @@ ENV APP_DECISION_BI_RPT="BI"
 ENV APP_REDIRECT_ABSOLUTE_PATH="true"
 
 # Run  when the container launches
-CMD ["java", "-jar", "backend-0.1.4.jar"]
+CMD ["java", "-jar", "backend-0.1.5.jar"]
